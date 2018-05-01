@@ -14,8 +14,13 @@ class Coach < ApplicationRecord
     [city, province, country].reject(&:empty?).join(', ')
   end
 
-  def as_json(options={})
-    super(only: [:id, :name, :certification_level, :tagline, :businessname, :location, :mobilephone, :website, :email],
-          methods: [:name, :certification_level, :tagline, :location, :website])
+  def self.search(params)
+    results = all
+
+    results = results.where('lower(country) LIKE ?', "%#{params[:country].downcase}%") if params[:country]
+    results = results.where('lower(postalcode) LIKE ?', "%#{params[:postal_code].downcase}%") if params[:postal_code]
+    results = results.where('lower(fullname) LIKE ?', "%#{params[:name].downcase}%") if params[:name]
+
+    results
   end
 end
