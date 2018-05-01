@@ -1,9 +1,7 @@
 class Coach < ApplicationRecord
   self.table_name = 'wp_fitpro_directory'
 
-  alias_attribute :name, :fullname
-  alias_attribute :tagline, :specialty
-  alias_attribute :website, :url
+  scope :visible, -> { where(show_in_directory: 1) }
 
   def certification_level
     return 2 if level2_status == 1
@@ -11,15 +9,15 @@ class Coach < ApplicationRecord
   end
 
   def location
-    [city, province, country].reject(&:empty?).join(', ')
+    [city, province, country].reject(&:blank?).join(', ')
   end
 
-  def self.search(params)
-    results = all
+  def self.search(options)
+    results = visible
 
-    results = results.where('lower(country) LIKE ?', "%#{params[:country].downcase}%") if params[:country]
-    results = results.where('lower(postalcode) LIKE ?', "%#{params[:postal_code].downcase}%") if params[:postal_code]
-    results = results.where('lower(fullname) LIKE ?', "%#{params[:name].downcase}%") if params[:name]
+    results = results.where('lower(country) LIKE ?', "%#{options[:country].downcase}%") if options[:country]
+    results = results.where('lower(postalcode) LIKE ?', "%#{options[:postal_code].downcase}%") if options[:postal_code]
+    results = results.where('lower(fullname) LIKE ?', "%#{options[:name].downcase}%") if options[:name]
 
     results
   end
