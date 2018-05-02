@@ -27,22 +27,6 @@ class CoachTest < ActiveSupport::TestCase
     assert_nil(@coach.certification_level, 'null if neither level')
   end
 
-  test '#location' do
-    @coach.city = 'City'
-    @coach.province = 'Province'
-    @coach.country = 'Country'
-
-    assert_equal('City, Province, Country', @coach.location, 'joins city, province, country if all available')
-
-    @coach.city = ''
-
-    assert_equal('Province, Country', @coach.location, 'leaves out empty attributes')
-
-    @coach.city = nil
-
-    assert_equal('Province, Country', @coach.location, 'leaves out null attributes')
-  end
-
   test '.search' do
     Coach.create(fullname: 'Karen Carpenter', postalcode: '12345', country: 'USA', show_in_directory: 1)
     Coach.create(fullname: 'Richard Carpenter', postalcode: '54321', country: 'USA', show_in_directory: 1)

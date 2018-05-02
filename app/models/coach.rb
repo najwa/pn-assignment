@@ -8,10 +8,6 @@ class Coach < ApplicationRecord
     return 1 if level1_status == 1
   end
 
-  def location
-    [city, province, country].reject(&:blank?).join(', ')
-  end
-
   def self.search(options)
     results = visible
 
