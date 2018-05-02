@@ -1,24 +1,37 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+https://najwas-pn-assignment.herokuapp.com/api/coach_directory
 
-Things you may want to cover:
+Pagination params:
 
-* Ruby version
+* page
+* per_page
 
-* System dependencies
 
-* Configuration
+Search params:
 
-* Database creation
+* country
+* name
+* postal_code
 
-* Database initialization
+Example:
+https://najwas-pn-assignment.herokuapp.com/api/coach_directory?per_page=5&page=2&name=Daniel&country=Canada
 
-* How to run the test suite
+## Setting up your development environment
 
-* Services (job queues, cache servers, search engines, etc.)
+1. Clone the repo and install all dependencies
+```
+git clone git@github.com:najwa/pn-assignment.git
+cd pn-assignment
+bundle
+```
+2. Create the database
+```
+rails db:create
+pg_restore -d pn-assignment_development db/datasets/postgres-wp_fitpro_directory.dump
+```
+3. Start the server with `rails s` then visit http://localhost:3000/api/coach_directory
 
-* Deployment instructions
-
-* ...
+## Running tests
+1. `rails db:test:prepare`
+2. `rails test`
