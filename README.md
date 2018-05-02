@@ -35,3 +35,12 @@ pg_restore -d pn-assignment_development db/datasets/postgres-wp_fitpro_directory
 ## Running tests
 1. `rails db:test:prepare`
 2. `rails test`
+
+## A note about the data
+The original data can be found [here](https://to-serve-files.s3.amazonaws.com/wp_fitpro_directory.sql?AWSAccessKeyId=AKIAJIN5VVUBN3EJDOYA&Expires=1525389215&Signature=LYPuex1tErwQIdjDHNzKuMm0aGs%3D). This is a MySQL export.
+
+Our API needs to read from Postgres, not MySQL. So I imported the original dataset into a MySQL database, then used pg-loader to load it into my development environment's Postgres database.
+
+Then, to get the data onto production, I used pg_dump to create a data dump of my Postgres database. I then imported this into Heroku.
+
+This Postgres data dump is also used when creating a new development environment from scratch - see step 2 of the 'Setting up your development environment' section.
